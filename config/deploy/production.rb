@@ -1,6 +1,6 @@
 set :application, "cook"
 set :repository,  "git@github.com:hechien/cook.git"
-set :domain, "192.168.173.109"
+set :domain, "192.168.173.141"
 set :deploy_to, "/home/apps/cook"
 
 role :web, domain                          # Your HTTP server, Apache/etc
@@ -17,10 +17,14 @@ set :use_sudo, false
 set :user, "apps"
 set :group, "apps"
 
-default_environment["PATH"] = "/home/apps/.rvm/gems/ruby-1.9.2-p290/bin:/home/apps/.rvm/gems/ruby-1.9.2-p290@global/bin:/home/apps/.rvm/rubies/ruby-1.9.2-p290/bin:/home/apps/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
-after("deploy:update") do
-  run "rvm 1.9.2"
-end
+set :default_environment, { 
+  'PATH' => "/home/apps/.rvm/gems/ruby-1.9.2-p290/bin:/home/apps/.rvm/gems/ruby-1.9.2-p290@global/bin:/home/apps/.rvm/rubies/ruby-1.9.2-p290/bin:/home/apps/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games",
+  'RUBY_VERSION' => 'ruby-1.9.2-p290',
+  'GEM_HOME' => '/home/apps/.rvm/gems/ruby-1.9.2-p290',
+  'GEM_PATH' => '/home/apps/.rvm/gems/ruby-1.9.2-p290:/home/apps/.rvm/gems/ruby-1.9.2-p290@global'
+}
+
+#default_environment["PATH"] = "/home/apps/.rvm/gems/ruby-1.9.2-p290/bin:/home/apps/.rvm/gems/ruby-1.9.2-p290@global/bin:/home/apps/.rvm/rubies/ruby-1.9.2-p290/bin:/home/apps/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
 
 namespace :deploy do
   desc "restart"
